@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fatia 🍃</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Great+Vibes&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --brown-dark: #5d4037;
+    --brown-mid: #8d6e63;
+    --brown-light: #d7ccc8;
+    --cream: #f9f3f0;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, var(--cream), #f1e2d2);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: var(--brown-dark);
+  }
+
+  header {
+    background: linear-gradient(90deg, var(--brown-dark), var(--brown-mid));
+    color: white;
+    padding: 25px 20px;
+    border-radius: 0 0 40px 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2em;
+    margin: 0;
+  }
+
+  header h2 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.6em;
+    color: #ffe9d6;
+    margin: 0;
+  }
+
+  #catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+  }
+
+  .btn {
+    background: var(--brown-mid);
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .btn:hover {
+    background: var(--brown-dark);
+  }
+
+  section.box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 700px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  }
+
+  input, select, textarea {
+    width: 90%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin: 6px 0;
+    text-align: center;
+  }
+
+  textarea { resize: none; }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--brown-dark);
+    color: #fff;
+    border-radius: 40px 40px 0 0;
+    margin-top: 40px;
+  }
+
+  #toast-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    z-index: 1000;
+  }
+
+  .toast {
+    background: var(--brown-mid);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    animation: fadeInOut 3s ease forwards;
+  }
+
+  #nota {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    margin: 30px auto;
+    max-width: 700px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: none;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(20px); }
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Fatia</h1>
+  <h2>Fresh Land Store</h2>
+  <p>Buah segar langsung dari kebun ke rumah Anda 🍎🥭🍇</p>
+</header>
+
+<section id="catalog"></section>
+
+<section id="cart-section" class="box">
+  <h2>🛒 Keranjang Belanja</h2>
+  <div id="cart-items">Belum ada item di keranjang.</div>
+  <p id="cart-total"><b>Total: Rp0</b></p>
+  <button class="btn" onclick="showCheckout()">Lanjut ke Checkout 💳</button>
+</section>
+
+<section id="checkout" class="box hidden">
+  <h2>📋 Isi Data Checkout</h2>
+  <input type="text" id="nama" placeholder="Masukkan nama Anda">
+  <textarea id="alamat" rows="3" placeholder="Masukkan alamat lengkap Anda"></textarea>
+
+  <select id="pengiriman" onchange="updatePengiriman()">
+    <option value="Instant">🚀 Instant (1-2 jam)</option>
+    <option value="Reguler" selected>📦 Reguler (1-2 hari)</option>
+    <option value="Hemat">🐢 Hemat (3-5 hari)</option>
+  </select>
+
+  <p id="ongkir-info">Ongkir: Rp10.000</p>
+  <p id="estimasi-info">Estimasi tiba: 1-2 hari</p>
+
+  <select id="metode">
+    <option value="Transfer Bank">🏦 Transfer Bank</option>
+    <option value="E-Wallet">💰 E-Wallet</option>
+    <option value="COD">💵 Bayar di Tempat (COD)</option>
+  </select><br><br>
+
+  <button class="btn" onclick="bayar()">Bayar Sekarang 💳</button>
+</section>
+
+<section id="nota"></section>
+
+<div id="toast-container"></div>
+
+<footer>
+  © 2025 Fatia 🍃 | Buah Segar Setiap Hari dengan Cinta 💛
+</footer>
+
+<script>
+const buahList = [
+  {emoji:"🍎", nama:"Apel", harga:32000, deskripsi:"Renyah, segar, dan kaya vitamin C 🍏"},
+  {emoji:"🥭", nama:"Mangga", harga:23000, deskripsi:"Manis alami dengan aroma tropis 🧡"},
+  {emoji:"🍇", nama:"Anggur", harga:60000, deskripsi:"Kaya antioksidan, rasa segar dan nikmat 🍷"}
+];
+
+let cart = {};
+let ongkir = 10000;
+let estimasi = "1-2 hari";
+const catalog = document.getElementById("catalog");
+
+function showToast(msg) {
+  const box = document.getElementById("toast-container");
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = msg;
+  box.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+buahList.forEach(b => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <h2>${b.emoji} ${b.nama}</h2>
+    <p>${b.deskripsi}</p>
+    <p><b>Rp${b.harga.toLocaleString()}/kg</b></p>
+    <input type="number" min="0.5" step="0.5" value="1" id="qty-${b.nama}">
+    <br><br>
+    <button class="btn" onclick="addToCart('${b.nama}', ${b.harga})">🛒 Tambah ke Keranjang</button>
+  `;
+  catalog.appendChild(card);
+});
+
+function addToCart(nama, harga) {
+  const qty = parseFloat(document.getElementById(`qty-${nama}`).value);
+  if (!cart[nama]) cart[nama] = {jumlah: 0, harga};
+  cart[nama].jumlah += qty;
+  updateCart();
+  showToast(`✅ ${nama} (${qty} kg) ditambahkan ke keranjang`);
+}
+
+function updateCart() {
+  const cartDiv = document.getElementById("cart-items");
+  let total = 0;
+  cartDiv.innerHTML = "";
+  for (const [nama, item] of Object.entries(cart)) {
+    const subtotal = item.harga * item.jumlah;
+    total += subtotal;
+    const div = document.createElement("div");
+    div.textContent = `${nama} - ${item.jumlah} kg = Rp${subtotal.toLocaleString()}`;
+    cartDiv.appendChild(div);
+  }
+  if (total === 0) cartDiv.innerHTML = "Belum ada item di keranjang.";
+  document.getElementById("cart-total").innerText = "Total: Rp" + total.toLocaleString();
+}
+
+function showCheckout() {
+  if (Object.keys(cart).length === 0) {
+    showToast("🛒 Keranjang masih kosong!");
+    return;
+  }
+  document.getElementById("checkout").classList.remove("hidden");
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function updatePengiriman() {
+  const pengiriman = document.getElementById("pengiriman").value;
+  if (pengiriman === "Instant") { ongkir = 15000; estimasi = "Tiba hari ini (1-2 jam)"; }
+  else if (pengiriman === "Reguler") { ongkir = 10000; estimasi = "1-2 hari"; }
+  else { ongkir = 5000; estimasi = "3-5 hari"; }
+
+  document.getElementById("ongkir-info").innerText = "Ongkir: Rp" + ongkir.toLocaleString();
+  document.getElementById("estimasi-info").innerText = "Estimasi tiba: " + estimasi;
+}
+
+function bayar() {
+  const nama = document.getElementById("nama").value.trim();
+  const alamat = document.getElementById("alamat").value.trim();
+  const pengiriman = document.getElementById("pengiriman").value;
+  const metode = document.getElementById("metode").value;
+
+  if (!nama || !alamat) {
+    showToast("⚠️ Lengkapi nama dan alamat pengiriman!");
+    return;
+  }
+
+  const totalBarang = Object.values(cart).reduce((a,b)=>a+b.harga*b.jumlah,0);
+  const totalAkhir = totalBarang + ongkir;
+
+  let notaHTML = `
+    <h2>🎉 Terima Kasih, ${nama}!</h2>
+    <p>Pesanan Anda sedang diproses di <b>Fatia Fresh Land Store 🍃</b></p>
+    <h3>🧾 Detail Pesanan:</h3>
+    <ul style="list-style:none;padding:0;text-align:left;max-width:400px;margin:auto;">`;
+
+  for (const [nama, item] of Object.entries(cart)) {
+    notaHTML += `<li>• ${nama}: ${item.jumlah} kg = Rp${(item.harga*item.jumlah).toLocaleString()}</li>`;
+  }
+
+  notaHTML += `</ul>
+    <p><b>Total Barang:</b> Rp${totalBarang.toLocaleString()}</p>
+    <p><b>Ongkir:</b> Rp${ongkir.toLocaleString()}</p>
+    <p><b>Total Bayar:</b> Rp${totalAkhir.toLocaleString()}</p>
+    <hr>
+    <p><b>Nama:</b> ${nama}</p>
+    <p><b>Alamat:</b> ${alamat}</p>
+    <p><b>Metode Pembayaran:</b> ${metode}</p>
+    <p><b>Pengiriman:</b> ${pengiriman} (${estimasi})</p>
+    <p>💛 Terima kasih telah berbelanja di <b>Fatia 🍃</b>!</p>
+  `;
+
+  document.getElementById("nota").innerHTML = notaHTML;
+  document.getElementById("nota").style.display = "block";
+  document.getElementById("checkout").classList.add("hidden");
+  cart = {};
+  updateCart();
+  showToast("✅ Pesanan berhasil! Nota telah ditampilkan.");
+}
+</script>
+</body>
+</html>
