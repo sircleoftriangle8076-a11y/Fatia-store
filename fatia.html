@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fatia 🍃</title>
+
+<!-- Font import (menggunakan alternatif dekoratif serupa karena font yang disebut tidak tersedia di Google Fonts) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Great+Vibes&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* 🌿 Warna dan nuansa utama */
+  :root {
+    --brown-dark: #5d4037;
+    --brown-mid: #8d6e63;
+    --brown-light: #d7ccc8;
+    --cream: #f9f3f0;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, var(--cream) 0%, #f1e2d2 100%);
+    margin: 0;
+    padding: 0;
+    color: var(--brown-dark);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  header {
+    background: linear-gradient(90deg, var(--brown-dark), var(--brown-mid));
+    color: white;
+    padding: 30px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border-radius: 0 0 40px 40px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif; /* menggantikan Fatima Lazaro Cardone */
+    font-size: 3.5em;
+    margin: 0;
+    letter-spacing: 3px;
+    animation: slideIn 1s ease-in-out;
+  }
+
+  header h2 {
+    font-family: 'Great Vibes', cursive; /* menggantikan Giulia Boggio Rigatoni */
+    font-size: 1.8em;
+    color: #ffe9d6;
+    margin: 0;
+  }
+
+  header p {
+    font-family: 'Poppins', sans-serif; /* menggantikan Ines Davodeau Holise */
+    font-size: 1.1em;
+    font-style: italic;
+    color: #f9fbe7;
+    margin-top: 10px;
+  }
+
+  @keyframes slideIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  /* 🛍️ Katalog */
+  #catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: fadeIn 1s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  .btn {
+    background: var(--brown-mid);
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn:hover {
+    background: var(--brown-dark);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    transform: scale(1.05);
+  }
+
+  /* 🧺 Keranjang & Checkout */
+  #cart-section, #checkout {
+    background: #fff;
+    border-radius: 16px;
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 700px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    animation: fadeIn 1s ease-in;
+  }
+
+  input, select, textarea {
+    width: 90%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin: 6px 0;
+    text-align: center;
+  }
+
+  textarea { resize: none; }
+
+  #ongkir-info, #estimasi-info {
+    background: #fbe9e7;
+    padding: 8px;
+    border-radius: 8px;
+    margin: 6px 0;
+    font-size: 0.9em;
+    color: var(--brown-dark);
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--brown-dark);
+    color: #fff;
+    border-radius: 40px 40px 0 0;
+    margin-top: 40px;
+  }
+
+  .cart-item {
+    background: #fff8f5;
+    margin: 8px auto;
+    padding: 10px;
+    border-radius: 10px;
+    width: 80%;
+    font-weight: 500;
+    color: var(--brown-mid);
+  }
+
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fatia 🍃</h1>
+  <h2>Fresh Land Store</h2>
+  <p>Buah segar langsung dari kebun ke rumah Anda 🍎🥭🍇</p>
+</header>
+
+<section id="catalog"></section>
+
+<section id="cart-section">
+  <h2>🛒 Keranjang Belanja</h2>
+  <div id="cart-items">Belum ada item di keranjang.</div>
+  <p id="cart-total"><b>Total: Rp0</b></p>
+  <button class="btn" onclick="showCheckout()">Lanjut ke Checkout 💳</button>
+</section>
+
+<section id="checkout" class="hidden">
+  <h2>🧾 Checkout</h2>
+  <input type="text" id="nama" placeholder="Masukkan nama Anda">
+  <textarea id="alamat" rows="3" placeholder="Masukkan alamat lengkap Anda"></textarea>
+
+  <select id="pengiriman" onchange="updatePengiriman()">
+    <option value="Instant">🚀 Instant (1-2 jam)</option>
+    <option value="Reguler" selected>📦 Reguler (1-2 hari)</option>
+    <option value="Hemat">🐢 Hemat (3-5 hari)</option>
+  </select>
+
+  <p id="ongkir-info">Ongkir: Rp10.000</p>
+  <p id="estimasi-info">Estimasi tiba: 1-2 hari</p>
+
+  <select id="metode">
+    <option value="Transfer Bank">🏦 Transfer Bank</option>
+    <option value="E-Wallet">💰 E-Wallet</option>
+    <option value="COD">💵 Bayar di Tempat (COD)</option>
+  </select><br><br>
+
+  <button class="btn" onclick="bayar()">Bayar Sekarang 💳</button>
+</section>
+
+<footer>
+  © 2025 Fatia 🍃 | Buah Segar Setiap Hari dengan Cinta 💛
+</footer>
+
+<script>
+const buahList = [
+  {emoji:"🍎", nama:"Apel", harga:32000, deskripsi:"Renyah, segar, dan kaya vitamin C 🍏"},
+  {emoji:"🥭", nama:"Mangga", harga:23000, deskripsi:"Manis alami dengan aroma tropis 🧡"},
+  {emoji:"🍇", nama:"Anggur", harga:60000, deskripsi:"Kaya antioksidan, rasa segar dan nikmat 🍷"},
+  {emoji:"🍉", nama:"Semangka", harga:15000, deskripsi:"Segar, manis, dan penuh air 💦"},
+  {emoji:"🍌", nama:"Pisang", harga:18000, deskripsi:"Sumber energi alami yang lezat 🍌"}
+];
+
+let cart = {};
+let ongkir = 10000; // default reguler
+let estimasi = "1-2 hari";
+
+const catalog = document.getElementById("catalog");
+
+buahList.forEach(b => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <h2>${b.emoji} ${b.nama}</h2>
+    <p>${b.deskripsi}</p>
+    <p><b>Rp${b.harga.toLocaleString()}/kg</b></p>
+    <input type="number" min="0.5" step="0.5" value="1" id="qty-${b.nama}">
+    <br><br>
+    <button class="btn" onclick="addToCart('${b.nama}', ${b.harga})">
+      🛒 Tambah ke Keranjang
+    </button>
+  `;
+  catalog.appendChild(card);
+});
+
+function addToCart(nama, harga) {
+  const qty = parseFloat(document.getElementById(`qty-${nama}`).value);
+  if (!cart[nama]) cart[nama] = {jumlah: 0, harga};
+  cart[nama].jumlah += qty;
+  updateCart();
+}
+
+function updateCart() {
+  const cartDiv = document.getElementById("cart-items");
+  let total = 0;
+  cartDiv.innerHTML = "";
+  for (const [nama, item] of Object.entries(cart)) {
+    const subtotal = item.harga * item.jumlah;
+    total += subtotal;
+    const div = document.createElement("div");
+    div.className = "cart-item";
+    div.innerHTML = `${nama} - ${item.jumlah} kg = Rp${subtotal.toLocaleString()}`;
+    cartDiv.appendChild(div);
+  }
+  if (total === 0) cartDiv.innerHTML = "Belum ada item di keranjang.";
+  document.getElementById("cart-total").innerText = "Total: Rp" + total.toLocaleString();
+}
+
+function showCheckout() {
+  if (Object.keys(cart).length === 0) {
+    alert("Keranjang masih kosong 🛒");
+    return;
+  }
+  document.getElementById("checkout").classList.remove("hidden");
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function updatePengiriman() {
+  const pengiriman = document.getElementById("pengiriman").value;
+  if (pengiriman === "Instant") {
+    ongkir = 15000;
+    estimasi = "Tiba hari ini (1-2 jam)";
+  } else if (pengiriman === "Reguler") {
+    ongkir = 10000;
+    estimasi = "1-2 hari";
+  } else {
+    ongkir = 5000;
+    estimasi = "3-5 hari";
+  }
+
+  document.getElementById("ongkir-info").innerText = "Ongkir: Rp" + ongkir.toLocaleString();
+  document.getElementById("estimasi-info").innerText = "Estimasi tiba: " + estimasi;
+}
+
+function bayar() {
+  const nama = document.getElementById("nama").value.trim();
+  const alamat = document.getElementById("alamat").value.trim();
+  const pengiriman = document.getElementById("pengiriman").value;
+  const metode = document.getElementById("metode").value;
+  const totalBarang = Object.values(cart).reduce((a,b)=>a+b.harga*b.jumlah,0);
+  const totalAkhir = totalBarang + ongkir;
+
+  if (!nama || !alamat) {
+    alert("Mohon lengkapi nama dan alamat pengiriman 🙏");
+    return;
+  }
+
+  alert(
+    `🎉 Terima kasih, ${nama}!\n\n` +
+    `Alamat: ${alamat}\n` +
+    `Metode Pengiriman: ${pengiriman}\n` +
+    `Ongkir: Rp${ongkir.toLocaleString()}\n` +
+    `Estimasi Tiba: ${estimasi}\n` +
+    `Metode Pembayaran: ${metode}\n\n` +
+    `Total Belanja: Rp${totalBarang.toLocaleString()}\n` +
+    `Total Bayar: Rp${totalAkhir.toLocaleString()}\n\n` +
+    `Pesanan Anda sedang diproses di Fatia 🍃`
+  );
+
+  cart = {};
+  updateCart();
+  document.getElementById("checkout").classList.add("hidden");
+  document.getElementById("nama").value = "";
+  document.getElementById("alamat").value = "";
+}
+</script>
+
+</body>
+</html>
